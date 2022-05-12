@@ -5,7 +5,7 @@ pipeline {
         stage("User input"){
             steps{
                 script{
-                    env.tag_name = input message: 'Enter tag name',ok : 'Deploy',description: 'Enter a tag for this build',name: 'TAG'
+                    env.tag_name = input message: 'Enter tag name'
                 }
                 echo "Deploying image with tag: ${env.tag_name}"
             }
