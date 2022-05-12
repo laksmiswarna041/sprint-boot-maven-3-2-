@@ -13,7 +13,6 @@ pipeline {
         stage('QA DEPLOY'){
             steps{
                input{
-                   id:'tag_name',
                    message: 'Enter tage name to deploy image'
                    parameters:[
                        [$class: 'GlobalVariableStringParameterDefinition',defaultValue: 'latest']
