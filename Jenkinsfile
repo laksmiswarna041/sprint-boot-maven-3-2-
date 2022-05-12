@@ -2,25 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('DEV DEPLOY'){
+        stage('build application'){
             steps{
             sh 'mvn clean package'
-            sh 'docker build -t sgb-jenkins-task3:latest .'
             }
         }
 
-        stage('QA DEPLOY'){
-            input{
-                message "Enter tag name for image"
-            }
+        stage('deploy image'){
             steps{
-                echo "Build tag updated"   
+                sh 'docker build -t sgb-jenkins-task3 .'   
             }
         }
 
-         stage('CLEANUP'){
+        stage('push to ECR'){
             steps{
-                sh 'docker image prune --all'
+                withDockerRegistry( [ credentialsId: "ecr:us-east-1:aws-creds", url: "https://590852515231.dkr.ecr.us-east-1.amazonaws.com" ] ){
+                    sh 'docker tag sgb-jenkins-task3:latest 590852515231.dkr.ecr.us-east-1.amazonaws.com/sgb-jenkins-task3:$BUILD_NUMBER'
+                    sh 'docker push 590852515231.dkr.ecr.us-east-1.amazonaws.com/sgb-jenkins-task3:$BUILD_NUMBER'
+                }  
+
             }
         }
     }
