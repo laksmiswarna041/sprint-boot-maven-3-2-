@@ -2,10 +2,17 @@ pipeline {
     agent any
 
     stages {
+        stage("User input"){
+            steps{
+                script{
+                    env.tag_name = input message: 'Enter tag name',ok : 'Deploy',description: 'Enter a tag for this build',name: 'TAG'
+                }
+                echo "Deploying image with tag: ${env.tag_name}"
+            }
+        }
         stage('DEV_DEPLOY'){
             steps{
             sh 'mvn clean package'
-            sh 'echo  "${build_tag}"'
             sh 'docker build -t sgb-jenkins-task3:latest .'
             }
         }
