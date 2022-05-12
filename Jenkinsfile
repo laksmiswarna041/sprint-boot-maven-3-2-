@@ -10,17 +10,14 @@ pipeline {
             }
         }
 
-       stage ("Prompt for input") {
-      steps {
-        script {
-          env.TAGNAME = input message: 'Please enter the tag name',
-                             parameters: [string(defaultValue: '',
-                                          description: '',
+        stage ("Prompt for input") {
+            steps {
+                script {
+                    env.TAGNAME = input message: 'Please enter the tag name', parameters: [string(defaultValue: '',description: '')]
+                }
+                echo "Username: ${env.TAGNAME}"
+            }
         }
-        echo "Username: ${env.TAGNAME}"
-        
-      }
-    }
 
         stage('CLEANUP'){
             steps{
