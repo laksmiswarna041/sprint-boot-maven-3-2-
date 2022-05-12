@@ -3,24 +3,33 @@ pipeline {
 
     stages {
         
-        stage('DEV_DEPLOY'){
-            steps{
-            sh 'mvn clean package'
-            sh 'docker build -t sgb-jenkins-task3:latest .'
-            }
-        }
-
-        stage ('Prompt for input') {
+        stage('PROMPT INPUT') {
             steps {
                 script {
-                    env.TAGNAME = input message: 'Please enter the tag name', parameters: [string(defaultValue: 'latest',description: '')]
-                }
-                echo "Username: ${env.TAGNAME}"
+                         env.tagvalue = input message: 'Please enter the build tag value',
+                             parameters: [string(defaultValue: '',
+                                          description: '',
+                                          name: 'tagvalue')]
+                        }           
+              echo '${env.tagvalue}'
             }
+        }
+        
+        stage('DEV_DEPLOY'){
+            steps{
+                sh 'mvn clean package'
+                sh "docker build -t keerthi-jenkins-task3:${env.tagvalue} ."   
+            }
+        }
+      
+        stage('QA_DEPLOY'){
             input{
-                message 'Deploy image?'
-                ok "Approve!"
+                message "Should approve ?"
+                ok "Approve"
             }
+            steps{
+                echo 'deploy approved'
+            } 
         }
 
         stage('CLEANUP'){
