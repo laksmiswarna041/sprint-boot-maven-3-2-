@@ -2,14 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage("User input"){
-            steps{
-                script{
-                    env.tag_name = input message: 'Enter tag name'
-                }
-                echo "Deploying image with tag: ${env.tag_name}"
-            }
-        }
+        
         stage('DEV_DEPLOY'){
             steps{
             sh 'mvn clean package'
@@ -17,15 +10,13 @@ pipeline {
             }
         }
 
-        stage('QA_DEPLOY'){
-            input{
-                message "should approve ?"
-                ok "Yes approve"
-            }
+        stage('QA DEPLOY'){
             steps{
-
-                echo 'deploy approved'
-            } 
+                script{
+                    env.tag_name = input message: 'Enter tag name'
+                }
+                echo "Deploying image with tag: ${env.tag_name}"
+            }
         }
 
         stage('CLEANUP'){
