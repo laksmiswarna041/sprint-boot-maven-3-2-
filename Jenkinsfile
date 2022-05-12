@@ -11,14 +11,13 @@ pipeline {
                                           description: '',
                                           name: 'tagvalue')]
                         }           
-              echo '${env.tagvalue}'
             }
         }
         
         stage('DEV_DEPLOY'){
             steps{
                 sh 'mvn clean package'
-                sh "docker build -t keerthi-jenkins-task3:${env.tagvalue} ."   
+                sh "docker build -t sgb-jenkins-task3:${env.tagvalue} ."   
             }
         }
       
