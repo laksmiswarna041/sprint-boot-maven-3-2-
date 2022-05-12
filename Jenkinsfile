@@ -10,17 +10,17 @@ pipeline {
             }
         }
 
-        stage('QA DEPLOY'){
-            input{
-                   message: 'Enter tage name to deploy image'
-                   parameters:[
-                       [$class: 'GlobalVariableStringParameterDefinition',defaultValue: 'latest']
-                   ]
-               }
-            steps{
-                echo "Deploying image with tag: ${env.tag_name}"
-            }
+       stage ("Prompt for input") {
+      steps {
+        script {
+          env.TAGNAME = input message: 'Please enter the tag name',
+                             parameters: [string(defaultValue: '',
+                                          description: '',
         }
+        echo "Username: ${env.TAGNAME}"
+        
+      }
+    }
 
         stage('CLEANUP'){
             steps{
