@@ -13,7 +13,7 @@ pipeline {
         stage ("Prompt for input") {
             steps {
                 script {
-                    env.TAGNAME = input message: 'Please enter the tag name', parameters: [string(defaultValue: '',description: '')]
+                    env.TAGNAME = input message: 'Please enter the tag name', parameters: [string(defaultValue: 'latest',description: '')]
                 }
                 echo "Username: ${env.TAGNAME}"
             }
