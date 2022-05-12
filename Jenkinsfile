@@ -5,6 +5,7 @@ pipeline {
         stage('DEV_DEPLOY'){
             steps{
             sh 'mvn clean package'
+            sh 'echo  "${build_tag}"'
             sh 'docker build -t sgb-jenkins-task3:latest .'
             }
         }
@@ -15,6 +16,7 @@ pipeline {
                 ok "Yes approve"
             }
             steps{
+
                 echo 'deploy approved'
             } 
         }
